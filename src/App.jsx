@@ -2,30 +2,12 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { AgregarTarea } from "./components/AgregarTarea";
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useTareas } from "./hooks/useTareas";
 import { ListaTareas } from "./components/ListaTareas";
 import { FcTodoList, FcCustomerSupport } from "react-icons/fc";
 
 export const App = () => {
-  const [tareas, settareas] = useState([]);
-
-  const guardarTarea = (texto) => {
-    if (texto === "") return;
-    settareas([...tareas, { id: uuidv4(), name: texto, done: false }]);
-  };
-
-  const eliminarTarea = (id) => {
-    settareas(tareas.filter((tarea) => tarea.id !== id));
-  };
-
-  const estadoTarea = (id) => {
-    settareas(
-      tareas.map((tarea) =>
-        tarea.id == id ? { ...tarea, done: !tarea.done } : tarea
-      )
-    );
-  };
+  const { guardarTarea, eliminarTarea, tareas, estadoTarea } = useTareas();
 
   return (
     <div className="contenedor">
