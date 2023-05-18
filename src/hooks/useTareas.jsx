@@ -1,8 +1,17 @@
-import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+
+const recuperarTareas = () => {
+  let data = localStorage.getItem("tareas");
+  if (data) {
+    return JSON.parse(localStorage.getItem("tareas"));
+  } else {
+    return [];
+  }
+};
+
 export const useTareas = () => {
-  const [tareas, settareas] = useState([]);
+  const [tareas, settareas] = useState(recuperarTareas());
 
   const guardarTarea = (texto) => {
     if (texto === "") return;
@@ -20,6 +29,10 @@ export const useTareas = () => {
       )
     );
   };
+
+  useEffect(() => {
+    window.localStorage.setItem("tareas", JSON.stringify(tareas));
+  }, [tareas]);
 
   return {
     guardarTarea,
